@@ -18,11 +18,22 @@ namespace Sla2Pong
             // We call the Frame method from the GameFrame class and pass the width and height as arguments.
             GameFrame.Frame(width, height);
 
+
             // We're using a thread to spawn the pong ball, this is so we can see the box and ball at the same time.
             Thread ballThread = new Thread(() => GameFrame.PongBall(width, height));
             ballThread.Start();
 
-            Console.ReadLine(); // Pause to see the box and ball so we can see the render of the box and ball
+
+            // We create a class for our thread since we want to spawn 2 paddles with different properties. 
+            Thread paddleThread = new Thread(() =>
+            {
+                GameFrame.DrawPaddle(1, height / 2, '|', height);
+                GameFrame.DrawPaddle(width - 1, height / 2, '|', height);
+            });
+
+            paddleThread.Start();
+
+            Console.ReadLine(); // Pauses to see everything rendered
         }
     }
 
@@ -71,9 +82,20 @@ namespace Sla2Pong
         {
             int ballX = width / 2;
             int ballY = height / 2;
- 
+
             Console.SetCursorPosition(ballX, ballY);
             Console.Write("O");
+        }
+
+        // Method to draw the paddles, we pass the x and y cordinates, the symbol and the height as arguments.
+        public static void DrawPaddle(int x, int y, char symbol, int height)
+        {
+            // We use a for loop to draw the paddle, we use the y cordinate as the starting point and the height as the end point.
+            for (int i = y - (height / 10); i <= y + (height / 10); i++)
+            {
+                Console.SetCursorPosition(x, i);
+                Console.Write(symbol);
+            }
         }
     }
 }
