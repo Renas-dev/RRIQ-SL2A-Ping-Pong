@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Sla2_Pong
-build_property.ProjectDir = C:\Users\renas\Source\Repos\Renas-dev\RRIQ-SL2A-Ping-Pong\Sla2-Pong\
+build_property.ProjectDir = C:\Users\qbver\source\repos\RRIQ-SL2A-Ping-Pong\Sla2-Pong\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

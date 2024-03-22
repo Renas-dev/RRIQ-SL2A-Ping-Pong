@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\renas\\Source\\Repos\\Renas-dev\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\Sla2-Pong.csproj": {}
+    "C:\\Users\\qbver\\source\\repos\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\Sla2-Pong.csproj": {}
   },
   "projects": {
-    "C:\\Users\\renas\\Source\\Repos\\Renas-dev\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\Sla2-Pong.csproj": {
+    "C:\\Users\\qbver\\source\\repos\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\Sla2-Pong.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\renas\\Source\\Repos\\Renas-dev\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\Sla2-Pong.csproj",
+        "projectUniqueName": "C:\\Users\\qbver\\source\\repos\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\Sla2-Pong.csproj",
         "projectName": "Sla2-Pong",
-        "projectPath": "C:\\Users\\renas\\Source\\Repos\\Renas-dev\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\Sla2-Pong.csproj",
-        "packagesPath": "C:\\Users\\renas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\renas\\Source\\Repos\\Renas-dev\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\obj\\",
+        "projectPath": "C:\\Users\\qbver\\source\\repos\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\Sla2-Pong.csproj",
+        "packagesPath": "C:\\Users\\qbver\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\qbver\\source\\repos\\RRIQ-SL2A-Ping-Pong\\Sla2-Pong\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\renas\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\qbver\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
