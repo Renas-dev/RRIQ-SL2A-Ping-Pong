@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sla2-Pong")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+783087b38413d3ef745983d30d1495482a09d2a2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5c5e8fbf57b744a0da55463e231e211454d510c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sla2-Pong")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sla2-Pong")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
