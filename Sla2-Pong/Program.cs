@@ -185,17 +185,19 @@ namespace Sla2Pong
             Clear();
         }
     }
-
     // GameStatus class for the game loop and the game status
     public class GameStatus
-    { // width and height properties for the game frame and the paddles and the ball.
+    {
+        // width and height properties for the game frame and the paddles and the ball.
         private readonly int width;
         private readonly int height;
         private int leftPaddleY;
         private int rightPaddleY;
         private PongBall ball;
+        private int leftScore = 0; // Initialized left score
+        private int rightScore = 0; // Initialized right score
 
-        // constructor for the GameStatus class to initialize the game frame and the initial position of the paddles and the ball.
+        // Constructor for the GameStatus class to initialize the game frame and the initial position of the paddles and the ball.
         public GameStatus(int width, int height)
         {
             this.width = width;
@@ -212,26 +214,31 @@ namespace Sla2Pong
 
             bool gameRunning = true;
             while (gameRunning)
-            {// We slow down the game loop with a short delay to control the speed of the ball movement.
-             // We clear the old position of the ball and redraw it to its new position
-             // we also check for the collision of the ball with the paddles.
-                Thread.Sleep(100); 
+            {
+                // We slow down the game loop with a short delay to control the speed of the ball movement.
+                // We clear the old position of the ball and redraw it to its new position
+                // We also check for the collision of the ball with the paddles.
+                Thread.Sleep(100);
                 ball.Clear();
                 ball.Move();
-                ball.CheckPaddleCollision(1, leftPaddleY, 5); 
-                ball.CheckPaddleCollision(width - 2, rightPaddleY, 5); 
-                ball.Draw();
-                // Inside the GameStatus.Run() method:
+                ball.CheckPaddleCollision(1, leftPaddleY, 5);
+                ball.CheckPaddleCollision(width - 2, rightPaddleY, 5);
 
-                if (ball.X <= 1 || ball.X >= width - 1) // Ball has passed the left or right edge
+                // We check if the ball passed the left or right edge of the game frame and update the score accordingly.
+                if (ball.X <= 1)
                 {
-                    // Optionally, update scores here
-                    // leftScore++ or rightScore++ based on which side the ball passed
-                    ball.Clear(); 
-                    GameFrame.Frame(width, height, clearOnly: true);
-                    ball.ResetBall(); // Reset the ball to the center
+                    rightScore++;
+                    UpdateScoreDisplay();
+                    ball.ResetBall();
                 }
-
+                else if (ball.X >= width - 1)
+                {
+                    leftScore++;
+                    UpdateScoreDisplay();
+                    ball.ResetBall();
+                }
+                // Moving the draw here seems to fix a weird bug where the ball would someteimes not be drawn or not be cleared properly.
+                ball.Draw();
                 // We check the user input for moving the paddles.
                 if (Console.KeyAvailable)
                 {
@@ -285,7 +292,29 @@ namespace Sla2Pong
 
                 // Redraw the affected part of the frame if needed to ensure the game frame remains intact
                 GameFrame.Frame(width, height, true);
+                UpdateScoreDisplay();
             }
         }
+
+        // Method to update the score display on the game frame
+        private void UpdateScoreDisplay()
+        {
+            // Clear previous scores to avoid overwriting issues
+            Console.SetCursorPosition(2, 1);
+            Console.Write(new string(' ', 5)); // Clear area for left score
+            Console.SetCursorPosition(width - 7, 1);
+            Console.Write(new string(' ', 5)); // Clear area for right score
+
+            // Display left score at the top left of the frame
+            Console.SetCursorPosition(2, 1);
+            Console.Write($"L: {leftScore}");
+
+            // Display right score at the top right of the frame
+            Console.SetCursorPosition(width - 7, 1);
+            Console.Write($"R: {rightScore}");
+        }
     }
+
+
+
 }
