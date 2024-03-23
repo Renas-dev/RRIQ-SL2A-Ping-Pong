@@ -237,6 +237,17 @@ namespace Sla2Pong
                     UpdateScoreDisplay();
                     ball.ResetBall();
                 }
+                // We check if either player has reached a score of 5 to end the game.
+                if (leftScore >= 5 || rightScore >= 5)
+                { // We clear the game frame and display the winner
+                    gameRunning = false;
+                    Console.Clear();
+                    string winner = leftScore >= 5 ? "Left Player Wins!" : "Right Player Wins!";
+                    Console.SetCursorPosition(width / 2 - winner.Length / 2, height / 2);
+                    Console.Write(winner);
+                    Console.ReadKey();
+                    continue;
+                }
                 // Moving the draw here seems to fix a weird bug where the ball would someteimes not be drawn or not be cleared properly.
                 ball.Draw();
                 // We check the user input for moving the paddles.
