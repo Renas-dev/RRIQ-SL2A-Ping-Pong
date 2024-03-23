@@ -111,71 +111,81 @@ namespace Sla2Pong
             }
         }
     }
-    // PongBall class for the ball object in the game\
+
+    // PongBall class for the ball object in the game
     public class PongBall
-    { // X and Y properties for the ball's position
-        public int X
-        {
-            get;
-            private set;
-        }
-        public int Y
-        {
-            get;
-            private set;
-        } // widht and height properties stored of the game frame, this is used for the collision detection.
+    { // X and Y properties for the ball's position and directionX and directionY for the ball's movement direction
+        public int X { get; private set; }
+        public int Y { get; private set; }
         private int directionX = 1;
         private int directionY = 1;
         private readonly int width;
         private readonly int height;
 
-        // Constructor for the PongBall class
+        // Constructor for the PongBall class to initialize the game width and height and reset the ball position
         public PongBall(int gameWidth, int gameHeight)
-        { // Set the width and height of the game frame and the initial position of the ball.
+        {
             width = gameWidth;
             height = gameHeight;
             ResetPosition();
         }
-        // Method for moving the ball
+
+        // Method for moving the ball, we increment the X and Y coordinates by the direction values
         public void Move()
-        { // Move the ball by changing its X and Y coordinates
+        {
             X += directionX;
             Y += directionY;
 
-            // Bounce off the top and bottom borders
-            if (Y <= 1 || Y >= height - 1) directionY = -directionY;
-
-            // Bounce off the left and right borders
-            if (X <= 1 || X >= width - 1) directionX = -directionX;
-        }
-        // Method for checking the collision with the paddles
-        public void CheckPaddleCollision(int paddleX, int paddleY, int paddleSize)
-        {
-            // collision detection with the paddles
-            if ((X == paddleX + directionX) && (Y >= paddleY - paddleSize / 2) && (Y <= paddleY + paddleSize / 2))
-            { // Reverse the ball's horizontal direction
-                directionX = -directionX;
+            if (Y <= 1 || Y >= height - 1)
+            {
+                directionY = -directionY;
             }
         }
-        // Method for drawing the ball
+
+        // We check the collision of the ball with the paddles, if the ball is at the same position as the paddle and the direction is towards the paddle.
+        // We change the direction of the ball
+        public void CheckPaddleCollision(int paddleX, int paddleY, int paddleSize)
+        {
+            if (directionX < 0 && X == paddleX + 1 && Y >= paddleY - paddleSize / 2 && Y <= paddleY + paddleSize / 2)
+            {
+                directionX = -directionX; 
+            }
+            if (directionX > 0 && X == paddleX - 1 && Y >= paddleY - paddleSize / 2 && Y <= paddleY + paddleSize / 2)
+            {
+                directionX = -directionX; 
+            }
+        }
+
+        // We draw the ball at its current position
         public void Draw()
         {
             Console.SetCursorPosition(X, Y);
             Console.Write("O");
         }
 
+        // We clear the ball at its current position
         public void Clear()
         {
             Console.SetCursorPosition(X, Y);
             Console.Write(" ");
         }
-        // Center the ball in the game frame
+
+        // We reset the ball position to the center of the game frame
         private void ResetPosition()
         {
             X = width / 2;
             Y = height / 2;
         }
+
+        // We reset the ball position and direction and clear the ball's current position.
+        public void ResetBall()
+        {
+            ResetPosition();
+            directionX = -directionX;
+            Clear();
+        }
     }
+
     // GameStatus class for the game loop and the game status
     public class GameStatus
     { // width and height properties for the game frame and the paddles and the ball.
@@ -184,6 +194,7 @@ namespace Sla2Pong
         private int leftPaddleY;
         private int rightPaddleY;
         private PongBall ball;
+
         // constructor for the GameStatus class to initialize the game frame and the initial position of the paddles and the ball.
         public GameStatus(int width, int height)
         {
@@ -193,35 +204,48 @@ namespace Sla2Pong
             rightPaddleY = height / 2;
             ball = new PongBall(width, height);
         }
-        // Method for running the game loop
+
+        // Method for running the game loop.
         public void Run()
-        { // Draw the game frame
+        {
             GameFrame.Frame(width, height);
 
             bool gameRunning = true;
             while (gameRunning)
-            {
-                Thread.Sleep(100); // Slows down the loop for visibility
-                                   // clears the old position of the ball and moves the ball to its new position and draws the ball at its new position
+            {// We slow down the game loop with a short delay to control the speed of the ball movement.
+             // We clear the old position of the ball and redraw it to its new position
+             // we also check for the collision of the ball with the paddles.
+                Thread.Sleep(100); 
                 ball.Clear();
                 ball.Move();
+                ball.CheckPaddleCollision(1, leftPaddleY, 5); 
+                ball.CheckPaddleCollision(width - 2, rightPaddleY, 5); 
                 ball.Draw();
+                // Inside the GameStatus.Run() method:
 
+                if (ball.X <= 1 || ball.X >= width - 1) // Ball has passed the left or right edge
+                {
+                    // Optionally, update scores here
+                    // leftScore++ or rightScore++ based on which side the ball passed
+                    ball.Clear(); 
+                    GameFrame.Frame(width, height, clearOnly: true);
+                    ball.ResetBall(); // Reset the ball to the center
+                }
+
+                // We check the user input for moving the paddles.
                 if (Console.KeyAvailable)
                 {
                     var key = Console.ReadKey(true).Key;
-
-                    // Process the key press
                     switch (key)
                     {
-                        case ConsoleKey.W: // Moves left paddle up
+                        case ConsoleKey.W: // Moves the left paddle up
                             if (leftPaddleY - 3 > 0)
                             {
                                 GameFrame.DrawPaddle(1, leftPaddleY + 2, ' ', 5); // Clears the old position
                                 leftPaddleY--;
                             }
                             break;
-                        case ConsoleKey.S: // Moves left paddle down
+                        case ConsoleKey.S: // Moves the left paddle down
                             if (leftPaddleY + 3 < height)
                             {
                                 GameFrame.DrawPaddle(1, leftPaddleY - 2, ' ', 5); // Clears the old position
