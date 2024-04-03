@@ -15,7 +15,10 @@ namespace Sla2Pong
 
             // Initialize game status and start the game loop
             GameStatus gameStatus = new GameStatus(config.Width, config.Height);
-            gameStatus.Run();
+
+            //Concurrecny pattern, thread per object
+            Thread gameThread = new Thread(new ThreadStart(gameStatus.Run));
+            gameThread.Start();
         }
 
         static void ShowMenu()
@@ -66,7 +69,7 @@ namespace Sla2Pong
     public class GameConfig
     {
         private static GameConfig instance;
-        public int Width { get; private set; }
+        public int Width { get; private set; } // Width and height properties for the game window size change
         public int Height { get; private set; }
         public bool CursorVisible { get; private set; }
 
@@ -106,7 +109,7 @@ namespace Sla2Pong
                 for (int i = 0; i <= width; i++)
                 {
                     Console.SetCursorPosition(i, 0);
-                    Console.Write("\u2501");
+                    Console.Write("\u2501");  //dupe
                     Console.SetCursorPosition(i, height);
                     Console.Write("\u2501");
                 }
@@ -370,7 +373,4 @@ namespace Sla2Pong
             Console.Write($"R: {rightScore}");
         }
     }
-
-
-
 }
