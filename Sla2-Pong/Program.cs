@@ -14,10 +14,10 @@ namespace Sla2Pong
             GameConfig config = GameConfig.GetInstance();
 
             // Initialize game status and start the game loop
-            GameStatus gameStatus = new GameStatus(config.Width, config.Height);
+            GameController gameController = new GameController(config.Width, config.Height);
 
             //Concurrecny pattern, thread per object to run the game loop.
-            Thread gameThread = new Thread(new ThreadStart(gameStatus.Run));
+            Thread gameThread = new Thread(new ThreadStart(gameController.Run));
             gameThread.Start();
         }
 
