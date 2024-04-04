@@ -3,10 +3,10 @@ using System.Threading;
 
 namespace Sla2Pong
 {
-    // GameStatus class for the game loop and the game status
-    public class GameStatus
+    // GameController class for the game loop and the game status
+    public class GameController
     {
-        // width and height properties for the game frame and the paddles and the ball.
+        // We define some properties for the game status class.
         private readonly int width;
         private readonly int height;
         private int leftPaddleY;
@@ -15,9 +15,10 @@ namespace Sla2Pong
         private int leftScore = 0;
         private int rightScore = 0;
         private HighScores highScores;
+        private GameTimer gameTimer;
 
-        // Constructor for the GameStatus class to initialize the game frame and the initial position of the paddles and the ball.
-        public GameStatus(int width, int height)
+        // We construct the game status class.
+        public GameController(int width, int height)
         {
             this.width = width;
             this.height = height;
@@ -25,6 +26,7 @@ namespace Sla2Pong
             rightPaddleY = height / 2;
             ball = new PongBall(width, height);
             highScores = new HighScores();
+            gameTimer = new GameTimer(width / 2 - 5,1);
         }
 
         // Method for running the game loop.
@@ -44,6 +46,10 @@ namespace Sla2Pong
                 ball.Move();
                 ball.CheckPaddleCollision(1, leftPaddleY, 5);
                 ball.CheckPaddleCollision(width - 2, rightPaddleY, 5);
+                gameTimer.Clear();
+                gameTimer.Update();
+                gameTimer.Draw();
+
 
                 // We check if the ball passed the left or right edge of the game frame and update the score accordingly.
                 if (ball.X <= 1)
