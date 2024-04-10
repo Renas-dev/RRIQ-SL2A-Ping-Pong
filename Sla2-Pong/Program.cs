@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sla2_Pong;
+using System;
 using System.Threading;
 
 namespace Sla2Pong
@@ -7,8 +8,8 @@ namespace Sla2Pong
     {
         static void Main(string[] args)
         {
-            ShowMenu();
-            Console.ReadLine();
+            ShowMainMenu();
+
 
             // Gets the singleton instance of GameConfig
             GameConfig config = GameConfig.GetInstance();
@@ -21,44 +22,82 @@ namespace Sla2Pong
             gameThread.Start();
         }
 
-        static void ShowMenu()
+        static void ShowMainMenu()
         {
-            // Get console window size
-            int width = Console.WindowWidth;
-            int height = Console.WindowHeight;
-            string greeting = "Welcome to ping pong!";
+            Console.WriteLine("Main Menu:");
+            Console.WriteLine("1. Start Game");
+            Console.WriteLine("2. Exit");
+            Console.WriteLine("When game is started press 'q' to exit");
+            Console.Write("Select an option: ");
 
-            // Center the greeting text on the screen
-            Console.SetCursorPosition((width / 2) - (greeting.Length / 2), height / 2);
-            Console.Write(greeting);
+            string userInput = Console.ReadLine();
 
-            string[] menuOptions = new string[] { "Play Game", "Exit Game" };
-            // Draw boxes around the menu options
-            for (int i = 0; i < menuOptions.Length; i++)
+            switch (userInput)
             {
-                // Set cursor position for the top border
-                Console.SetCursorPosition((width / 2) - (menuOptions[i].Length / 2), (height / 2) + i + 1);
+                case "1":
+                    // Gets the singleton instance of GameConfig
+                    GameConfig config = GameConfig.GetInstance();
 
-                // Draw the top line
-                Console.Write("\u250C");
-                for (int j = 0; j < menuOptions[i].Length; j++)
+                    // Initialize game status and start the game loop
+                    GameController gameController = new GameController(config.Width, config.Height);
+
+                    //Concurrecny pattern, thread per object to run the game loop.
+                    Thread gameThread = new Thread(new ThreadStart(gameController.Run));
+                    gameThread.Start();
+                    break;
+                case "2":
+                    ExitGame();
+                    break;
+                default:
+                    Console.WriteLine("Invalid selection, please try again.");
+                    ShowMainMenu();
+                    break;
+            }
+            Console.Clear();
+        }
+
+        static void StartGame()
+        {
+            // Initialize or load your game here
+            Console.WriteLine("Loading game...");
+            Console.Clear();
+            // Example of game initialization/loading
+            InitializeGame();
+
+            // Enter the game loop
+            GameLoop();
+        }
+
+        static void InitializeGame()
+        {
+            // Initialize your game's state, load resources, etc.
+            //Console.WriteLine("Game initialized.");
+        }
+
+        static void GameLoop()
+        {
+            // Your game's main loop
+            bool gameRunning = true;
+            while (gameRunning)
+            {
+                // Update game state, handle user input, etc.
+
+                // Example of exiting the game loop
+                //Console.WriteLine("Press 'q' to quit.");
+                if (Console.ReadLine() == "q")
                 {
-                    Console.Write("\u2500");
-                }
-                Console.Write("\u2510");
-
-                // Draw the menu option text
-                Console.SetCursorPosition((width / 2) - (menuOptions[i].Length / 2), (height / 2) + i + 2);
-                Console.Write("\u2502" + menuOptions[i] + "\u2502");
-
-                // Draw the bottom line
-                Console.SetCursorPosition((width / 2) - (menuOptions[i].Length / 2), (height / 2) + i + 3);
-                Console.Write("\u2514");
-                for (int j = 0; j < menuOptions[i].Length; j++)
-                {
-                    Console.Write("\u2500");
+                    gameRunning = false;
                 }
             }
+
+            // When the loop ends, return to the main menu
+            ShowMainMenu();
+        }
+
+        static void ExitGame()
+        {
+            Console.WriteLine("Exiting game...");
+            Environment.Exit(0);
         }
     }
 }
