@@ -1,4 +1,4 @@
-﻿using Sla2_Pong;
+using Sla2_Pong;
 using System;
 using System.Threading;
 
