@@ -1,4 +1,4 @@
-using Sla2_Pong;
+
 using System;
 using System.Threading;
 
@@ -9,19 +9,7 @@ namespace Sla2Pong
         static void Main(string[] args)
         {
             ShowMainMenu();
-
-
-            // Gets the singleton instance of GameConfig
-            GameConfig config = GameConfig.GetInstance();
-
-            // Initialize game status and start the game loop
-            GameController gameController = new GameController(config.Width, config.Height);
-
-            //Concurrecny pattern, thread per object to run the game loop.
-            Thread gameThread = new Thread(new ThreadStart(gameController.Run));
-            gameThread.Start();
         }
-
         static void ShowMainMenu()
         {
             Console.WriteLine("Main Menu:");
